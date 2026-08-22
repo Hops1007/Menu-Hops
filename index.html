@@ -131,44 +131,71 @@
     <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
   </main>
 
-  <script>
+  <!-- SCRIPT CON FIREBASE REALTIME DATABASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
     const PASS = "hops2026"; 
-    
-    const defaultData = [
-      { id: 1, category: "Tragos y Cócteles", name: "Fernet Branca", price: "$4.500", desc: "Con Coca-Cola y hielo", image: "" },
-      { id: 2, category: "Burgers", name: "Cheeseburger", price: "$8.500", desc: "Doble medallón y quíntuple cheddar", image: "" }
-    ];
 
-    let menuData = JSON.parse(localStorage.getItem('hops_live_menu')) || defaultData;
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBfskM_72bc0fE3mASnt8Tp41CXJm9xMxc",
+      authDomain: "menu-hops.firebaseapp.com",
+      databaseURL: "https://menu-hops-default-rtdb.firebaseio.com",
+      projectId: "menu-hops",
+      storageBucket: "menu-hops.firebasestorage.app",
+      messagingSenderId: "143760990500",
+      appId: "1:143760990500:web:3561f665410e6f6468d3b1"
+    };
 
-    function openAdmin() {
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const menuRef = ref(database, 'productos');
+
+    let menuData = [];
+
+    // Escuchar cambios en la base de datos en tiempo real
+    onValue(menuRef, (snapshot) => {
+      const data = snapshot.val();
+      menuData = [];
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          menuData.push({ id: key, ...data[key] });
+        });
+      }
+      renderAll();
+      renderAdminList();
+    });
+
+    window.openAdmin = function() {
       document.getElementById('admin-modal').classList.remove('hidden');
-    }
+    };
 
-    function closeAdmin() {
+    window.closeAdmin = function() {
       document.getElementById('admin-modal').classList.add('hidden');
       document.getElementById('login-error').classList.add('hidden');
       document.getElementById('admin-pass').value = '';
-    }
+    };
 
-    function checkLogin() {
+    window.checkLogin = function() {
       const p = document.getElementById('admin-pass').value;
       if (p === PASS) {
         document.getElementById('login-box').classList.add('hidden');
         document.getElementById('panel-box').classList.remove('hidden');
         renderAdminList();
       } else {
-        document.getElementById('login-error').classList.add('hidden');
+        document.getElementById('login-error').classList.remove('hidden');
       }
-    }
+    };
 
-    function logout() {
+    window.logout = function() {
       document.getElementById('login-box').classList.remove('hidden');
       document.getElementById('panel-box').classList.add('hidden');
       document.getElementById('admin-pass').value = '';
-    }
+    };
 
-    async function saveItem(e) {
+    window.saveItem = async function(e) {
       e.preventDefault();
       const category = document.getElementById('item-category').value;
       const name = document.getElementById('item-name').value;
@@ -181,13 +208,16 @@
         imgBase64 = await toBase64(file);
       }
 
-      menuData.push({ id: Date.now(), category, name, price, desc, image: imgBase64 });
-      localStorage.setItem('hops_live_menu', JSON.stringify(menuData));
-      
+      push(menuRef, {
+        category,
+        name,
+        price,
+        desc,
+        image: imgBase64
+      });
+
       document.getElementById('item-form').reset();
-      renderAll();
-      renderAdminList();
-    }
+    };
 
     function toBase64(file) {
       return new Promise((resolve) => {
@@ -197,12 +227,10 @@
       });
     }
 
-    function deleteItem(id) {
-      menuData = menuData.filter(i => i.id !== id);
-      localStorage.setItem('hops_live_menu', JSON.stringify(menuData));
-      renderAll();
-      renderAdminList();
-    }
+    window.deleteItem = function(id) {
+      const itemRef = ref(database, `productos/${id}`);
+      remove(itemRef);
+    };
 
     function renderAdminList() {
       const list = document.getElementById('admin-items-list');
@@ -216,7 +244,7 @@
             <span class="text-cyan-400 font-semibold">[${i.category}]</span> 
             <span class="text-gray-200">${i.name}</span> - <span class="text-cyan-300">${i.price}</span>
           </div>
-          <button onclick="deleteItem(${i.id})" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+          <button onclick="deleteItem('${i.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
         </div>
       `).join('');
     }
@@ -230,6 +258,11 @@
       `).join('');
 
       const container = document.getElementById('menu-container');
+      if (categories.length === 0) {
+        container.innerHTML = '<p class="text-gray-400 text-center col-span-2">El menú se está cargando o no tiene ítems aún.</p>';
+        return;
+      }
+
       container.innerHTML = categories.map((cat, idx) => {
         const items = menuData.filter(i => i.category === cat);
         const itemsHTML = items.map(i => `
@@ -259,8 +292,6 @@
         `;
       }).join('');
     }
-
-    renderAll();
   </script>
 </body>
 </html>
