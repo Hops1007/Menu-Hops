@@ -159,7 +159,7 @@
         document.getElementById('panel-box').classList.remove('hidden');
         renderAdminList();
       } else {
-        document.getElementById('login-error').classList.remove('hidden');
+        document.getElementById('login-error').classList.add('hidden');
       }
     }
 
