@@ -128,7 +128,9 @@
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="max-w-6xl mx-auto px-4 py-6 relative z-10">
-    <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <p id="loading-msg" class="text-cyan-400 text-center col-span-2 py-12 animate-pulse text-sm">Cargando el menú...</p>
+    </div>
   </main>
 
   <!-- SCRIPT CON FIREBASE REALTIME DATABASE -->
@@ -259,7 +261,7 @@
 
       const container = document.getElementById('menu-container');
       if (categories.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center col-span-2">El menú se está cargando o no tiene ítems aún.</p>';
+        container.innerHTML = '<p class="text-gray-400 text-center col-span-2">El menú está vacío o se está actualizando.</p>';
         return;
       }
 
@@ -274,7 +276,7 @@
               </div>
               <span class="text-cyan-300 text-sm font-medium whitespace-nowrap">${i.price}</span>
             </div>
-            ${i.image ? `<div class="mt-2.5 flex justify-center bg-[#07070c] p-2 rounded-xl border border-cyan-500/20"><img src="${i.image}" class="max-h-48 w-auto object-contain rounded-lg"></div>` : ''}
+            ${i.image ? `<div class="mt-2.5 flex justify-center bg-[#07070c] p-2 rounded-xl border border-cyan-500/20"><img src="${i.image}" loading="lazy" class="max-h-48 w-auto object-contain rounded-lg"></div>` : ''}
           </div>
         `).join('');
 
