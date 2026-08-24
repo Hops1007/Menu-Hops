@@ -68,8 +68,9 @@
           </div>
         </div>
 
-        <!-- Formulario nuevo producto -->
+        <!-- Formulario producto (Crear / Editar) -->
         <form id="item-form" onsubmit="saveItem(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 bg-[#0a0a12] p-4 rounded-xl border border-gray-800">
+          <input type="hidden" id="edit-id">
           <div>
             <label class="block text-[11px] text-gray-400 mb-1">Categoría</label>
             <select id="item-category" class="w-full bg-[#11131d] border border-gray-700 rounded-lg p-2 text-white text-xs outline-none focus:border-cyan-400">
@@ -98,15 +99,16 @@
             <input type="text" id="item-price" placeholder="Ej: $3.800" required class="w-full bg-[#11131d] border border-gray-700 rounded-lg p-2 text-white text-xs outline-none focus:border-cyan-400">
           </div>
           <div>
-            <label class="block text-[11px] text-gray-400 mb-1">Foto del producto (Cuadrada completa)</label>
+            <label class="block text-[11px] text-gray-400 mb-1">Foto (Dejar vacío para mantener la actual)</label>
             <input type="file" id="item-image" accept="image/*" class="w-full bg-[#11131d] border border-gray-700 rounded-lg p-1.5 text-white text-[11px] outline-none">
           </div>
           <div class="sm:col-span-2">
             <label class="block text-[11px] text-gray-400 mb-1">Descripción (opcional)</label>
             <input type="text" id="item-desc" placeholder="Ej: Pinta 500ml - Notas cítricas" class="w-full bg-[#11131d] border border-gray-700 rounded-lg p-2 text-white text-xs outline-none focus:border-cyan-400">
           </div>
-          <div class="sm:col-span-2 flex justify-end">
-            <button type="submit" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">Agregar Ítem</button>
+          <div class="sm:col-span-2 flex justify-between items-center">
+            <button type="button" id="cancel-edit-btn" onclick="resetForm()" class="text-xs text-gray-400 hover:text-white hidden">Cancelar edición</button>
+            <button type="submit" id="form-submit-btn" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition ml-auto">Agregar Ítem</button>
           </div>
         </form>
 
@@ -137,7 +139,7 @@
   <!-- SCRIPT CON FIREBASE REALTIME DATABASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     const PASS = "hops2026"; 
 
@@ -179,6 +181,7 @@
       document.getElementById('admin-modal').classList.add('hidden');
       document.getElementById('login-error').classList.add('hidden');
       document.getElementById('admin-pass').value = '';
+      resetForm();
     };
 
     window.checkLogin = function() {
@@ -196,10 +199,12 @@
       document.getElementById('login-box').classList.remove('hidden');
       document.getElementById('panel-box').classList.add('hidden');
       document.getElementById('admin-pass').value = '';
+      resetForm();
     };
 
     window.saveItem = async function(e) {
       e.preventDefault();
+      const editId = document.getElementById('edit-id').value;
       const category = document.getElementById('item-category').value;
       const name = document.getElementById('item-name').value;
       const price = document.getElementById('item-price').value;
@@ -209,17 +214,22 @@
       let imgBase64 = '';
       if (file) {
         imgBase64 = await toBase64(file);
+      } else if (editId) {
+        // Si estamos editando y no subió foto nueva, mantenemos la anterior
+        const existingItem = menuData.find(i => i.id === editId);
+        if (existingItem) imgBase64 = existingItem.image || '';
       }
 
-      push(menuRef, {
-        category,
-        name,
-        price,
-        desc,
-        image: imgBase64
-      });
+      if (editId) {
+        // Actualizar producto existente
+        const itemRef = ref(database, `productos/${editId}`);
+        await set(itemRef, { category, name, price, desc, image: imgBase64 });
+      } else {
+        // Crear producto nuevo
+        await push(menuRef, { category, name, price, desc, image: imgBase64 });
+      }
 
-      document.getElementById('item-form').reset();
+      resetForm();
     };
 
     function toBase64(file) {
@@ -230,9 +240,38 @@
       });
     }
 
+    window.editItem = function(id) {
+      const item = menuData.find(i => i.id === id);
+      if (!item) return;
+
+      document.getElementById('edit-id').value = item.id;
+      document.getElementById('item-category').value = item.category;
+      document.getElementById('item-name').value = item.name;
+      document.getElementById('item-price').value = item.price;
+      document.getElementById('item-desc').value = item.desc || '';
+      
+      document.getElementById('form-submit-btn').innerText = 'Guardar Cambios';
+      document.getElementById('cancel-edit-btn').classList.remove('hidden');
+      
+      // Subir la vista del panel hacia el formulario para comodida
+      document.getElementById('item-form').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.resetForm = function() {
+      document.getElementById('item-form').reset();
+      document.getElementById('edit-id').value = '';
+      document.getElementById('form-submit-btn').innerText = 'Agregar Ítem';
+      document.getElementById('cancel-edit-btn').classList.add('hidden');
+    };
+
     window.deleteItem = function(id) {
-      const itemRef = ref(database, `productos/${id}`);
-      remove(itemRef);
+      if (confirm('¿Seguro querés eliminar este producto?')) {
+        const itemRef = ref(database, `productos/${id}`);
+        remove(itemRef);
+        if (document.getElementById('edit-id').value === id) {
+          resetForm();
+        }
+      }
     };
 
     function renderAdminList() {
@@ -243,11 +282,14 @@
       }
       list.innerHTML = menuData.map(i => `
         <div class="flex justify-between items-center bg-[#11131d] p-2 rounded border border-gray-800 text-xs">
-          <div>
+          <div class="truncate mr-2">
             <span class="text-cyan-400 font-semibold">[${i.category}]</span> 
             <span class="text-gray-200">${i.name}</span> - <span class="text-cyan-300">${i.price}</span>
           </div>
-          <button onclick="deleteItem('${i.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1">Eliminar</button>
+          <div class="flex gap-1.5 flex-shrink-0">
+            <button onclick="editItem('${i.id}')" class="text-cyan-400 hover:text-cyan-300 font-bold px-2 py-1 bg-cyan-950/40 rounded border border-cyan-800/50">Editar</button>
+            <button onclick="deleteItem('${i.id}')" class="text-red-400 hover:text-red-300 font-bold px-2 py-1 bg-red-950/40 rounded border border-red-800/50">Eliminar</button>
+          </div>
         </div>
       `).join('');
     }
