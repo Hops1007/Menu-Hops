@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <!-- Importación de tipografía Inter (estilo limpio y moderno tipo Perro Negro) y Bright Retro -->
+  <!-- Importación de tipografía Inter y Bright Retro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,11 +19,13 @@
       font-display: swap;
     }
 
-    /* Aplicamos la tipografía general estilo Inter a todo el cuerpo */
-    body { font-family: 'Inter', sans-serif; }
+    /* Forzamos Inter de manera global en absolutamente todo */
+    body, button, input, select, textarea { 
+      font-family: 'Inter', sans-serif !important; 
+    }
     
     .retro-title { 
-      font-family: 'Bright Retro', 'Permanent Marker', cursive, sans-serif; 
+      font-family: 'Bright Retro', 'Permanent Marker', cursive, sans-serif !important; 
       letter-spacing: 1px;
     }
 
@@ -156,7 +158,7 @@
   <!-- NAVEGACIÓN -->
   <nav id="cat-nav" class="sticky top-0 z-40 bg-white/90 backdrop-blur px-4 py-3 flex gap-2 overflow-x-auto border-b border-gray-200 shadow-sm justify-start md:justify-center"></nav>
 
-  <!-- CONTENIDO PRINCIPAL (Una sola columna centrada, igual que Perro Negro) -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="max-w-2xl mx-auto px-4 py-6 relative z-10">
     <div id="menu-container" class="space-y-6">
       <p id="loading-msg" class="text-cyan-700 text-center py-12 animate-pulse text-sm">Cargando el menú...</p>
