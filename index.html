@@ -23,7 +23,7 @@
       font-weight: 900;
     }
 
-    /* Fondo liso en color beige suave */
+    /* Fondo liso en color beige suave (sin tramados ni líneas) */
     .light-grid {
       background-color: #f5f2eb;
     }
@@ -78,7 +78,7 @@
 
         <!-- SECCIÓN ADMINISTRAR BANNER -->
         <div class="mb-6 bg-cyan-50/50 p-4 rounded-xl border border-cyan-100">
-          <h3 class="text-xs uppercase tracking-wider text-cyan-700 mb-2 font-bold">Banner / Logo Principal de la Página</h3>
+          <h3 class="text-xs uppercase tracking-wider text-cyan-700 mb-2 font-bold">Banner Principal de la Página</h3>
           <form id="banner-form" onsubmit="saveBanner(event)" class="space-y-3">
             <div>
               <label class="block text-[11px] text-gray-600 mb-1">Seleccionar nueva foto de banner</label>
@@ -146,9 +146,9 @@
   <header class="text-center py-8 px-4 relative z-10">
     <p class="text-sm uppercase tracking-widest mb-3 text-gray-900 font-bold">Bienvenidos a</p>
     
-    <!-- BANNER DINÁMICO (Vuelto a su contenedor original ajustable) -->
+    <!-- BANNER DINÁMICO -->
     <div id="banner-display-container" class="max-w-md mx-auto mb-4 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-cover rounded-2xl shadow-md border border-gray-200 bg-white">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-cover rounded-2xl shadow-md border border-gray-200">
     </div>
   </header>
 
@@ -185,24 +185,6 @@
     const bannerRef = ref(database, 'configuracion/banner');
 
     let menuData = [];
-
-    // Diccionario de símbolos/iconos minimalistas limpios (sin colores estridentes de celular)
-    const categoryEmojis = {
-      "Cervezas": "—",
-      "Tragos y Cócteles": "◆",
-      "Autoría Hops": "✦",
-      "Espumantes": "•",
-      "Destilados": "—",
-      "Bebidas Sin Alcohol": "○",
-      "Entradas": "›",
-      "Burgers": "—",
-      "Extras": "+",
-      "Pizzas": "•",
-      "Milanesas": "›",
-      "Tacos": "—",
-      "Sándwiches": "›",
-      "Postres": "✦"
-    };
 
     onValue(menuRef, (snapshot) => {
       const data = snapshot.val();
@@ -367,10 +349,9 @@
       const categories = [...new Set(menuData.map(i => i.category))];
       
       const nav = document.getElementById('cat-nav');
-      nav.innerHTML = categories.map((cat, idx) => {
-        const symbol = categoryEmojis[cat] || '';
-        return `<button class="category-btn flex-shrink-0 px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs font-medium whitespace-nowrap" onclick="document.getElementById('sec-${idx}').scrollIntoView({behavior:'smooth',block:'start'})">${symbol ? symbol + ' ' : ''}${cat}</button>`;
-      }).join('');
+      nav.innerHTML = categories.map((cat, idx) => `
+        <button class="category-btn flex-shrink-0 px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs font-medium whitespace-nowrap" onclick="document.getElementById('sec-${idx}').scrollIntoView({behavior:'smooth',block:'start'})">${cat}</button>
+      `).join('');
 
       const container = document.getElementById('menu-container');
       if (categories.length === 0) {
@@ -380,7 +361,6 @@
 
       container.innerHTML = categories.map((cat, idx) => {
         const items = menuData.filter(i => i.category === cat);
-        const symbol = categoryEmojis[cat] || '';
         const itemsHTML = items.map(i => `
           <div class="menu-item py-3">
             <div class="flex justify-between items-baseline gap-3">
@@ -398,7 +378,7 @@
           <div id="sec-${idx}" class="section-block scroll-mt-16 mb-4">
             <div class="mb-3">
               <span class="cat-plate">
-                <span class="text-white uppercase text-lg tracking-wide retro-title">${symbol ? symbol + ' ' : ''}${cat}</span>
+                <span class="text-white uppercase text-lg tracking-wide retro-title">${cat}</span>
               </span>
             </div>
             <div class="bg-white border border-gray-200/80 p-4 rounded-xl shadow-sm">
