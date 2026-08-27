@@ -5,12 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <!-- Importación de tipografía Inter y Bright Retro -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Importación de tipografía Bright Retro para títulos de categorías */
+    /* Importación de tipografía Bright Retro solo para los títulos de categorías */
     @font-face {
       font-family: 'Bright Retro';
       src: url('https://db.onlinewebfonts.com/t/20e2417770802c6114871d3c054238db.woff2') format('woff2');
@@ -19,9 +15,9 @@
       font-display: swap;
     }
 
-    /* Forzamos Inter de manera global en absolutamente todo */
+    /* Tipografía moderna, limpia y minimalista nativa (estilo Perro Negro) para todo el menú */
     body, button, input, select, textarea { 
-      font-family: 'Inter', sans-serif !important; 
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important; 
     }
     
     .retro-title { 
