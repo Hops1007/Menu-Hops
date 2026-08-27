@@ -148,18 +148,18 @@
     <p class="text-sm uppercase tracking-widest mb-3 text-cyan-700 font-semibold">Bienvenidos a</p>
     
     <!-- BANNER DINÁMICO -->
-    <div id="banner-display-container" class="max-w-xl mx-auto mb-4 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-56 object-cover rounded-2xl shadow-md border border-gray-200">
+    <div id="banner-display-container" class="max-w-md mx-auto mb-4 hidden px-4">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-cover rounded-2xl shadow-md border border-gray-200">
     </div>
   </header>
 
   <!-- NAVEGACIÓN -->
-  <nav id="cat-nav" class="sticky top-0 z-40 bg-white/90 backdrop-blur px-4 py-3 flex gap-2 overflow-x-auto border-b border-gray-200 shadow-sm"></nav>
+  <nav id="cat-nav" class="sticky top-0 z-40 bg-white/90 backdrop-blur px-4 py-3 flex gap-2 overflow-x-auto border-b border-gray-200 shadow-sm justify-start md:justify-center"></nav>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="max-w-6xl mx-auto px-4 py-6 relative z-10">
-    <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <p id="loading-msg" class="text-cyan-700 text-center col-span-2 py-12 animate-pulse text-sm">Cargando el menú...</p>
+  <!-- CONTENIDO PRINCIPAL (Una sola columna centrada, igual que Perro Negro) -->
+  <main class="max-w-2xl mx-auto px-4 py-6 relative z-10">
+    <div id="menu-container" class="space-y-6">
+      <p id="loading-msg" class="text-cyan-700 text-center py-12 animate-pulse text-sm">Cargando el menú...</p>
     </div>
   </main>
 
@@ -360,7 +360,7 @@
 
       const container = document.getElementById('menu-container');
       if (categories.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-center col-span-2">El menú está vacío o se está actualizando.</p>';
+        container.innerHTML = '<p class="text-gray-500 text-center">El menú está vacío o se está actualizando.</p>';
         return;
       }
 
