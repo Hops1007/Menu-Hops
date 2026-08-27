@@ -46,6 +46,12 @@
       color: #ffffff !important;
     }
 
+    /* ESTILO PARA INTEGRAR EL BANNER AL FONDO BEIGE */
+    .banner-box {
+      background-color: #f5f2eb;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
     .menu-item:last-child { border-bottom: none; }
     nav::-webkit-scrollbar { display: none; }
@@ -155,9 +161,11 @@
   <header class="text-center py-8 px-4 relative z-10">
     <p class="text-sm uppercase tracking-widest mb-3 text-gray-900 font-bold">Bienvenidos a</p>
     
-    <!-- BANNER DINÁMICO -->
+    <!-- BANNER DINÁMICO CON EL MISMO FONDO DE LA PÁGINA -->
     <div id="banner-display-container" class="max-w-md mx-auto mb-4 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-cover rounded-2xl shadow-md border border-gray-200">
+      <div class="banner-box p-3 rounded-2xl shadow-sm inline-block w-full">
+        <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-contain rounded-xl">
+      </div>
     </div>
   </header>
 
@@ -347,7 +355,7 @@
             <span class="text-gray-800">${i.name}</span> - <span class="text-cyan-800 font-bold">${i.price}</span>
           </div>
           <div class="flex gap-1.5 flex-shrink-0">
-            <button onclick="editItem('${i.id}')" class="text-cyan-700 hover:text-cyan-900 font-bold px-2 py-1 bg-cyan-50 rounded border border-cyan-200">Editar, Editar</button>
+            <button onclick="editItem('${i.id}')" class="text-cyan-700 hover:text-cyan-900 font-bold px-2 py-1 bg-cyan-50 rounded border border-cyan-200">Editar</button>
             <button onclick="deleteItem('${i.id}')" class="text-red-600 hover:text-red-800 font-bold px-2 py-1 bg-red-50 rounded border border-red-200">Eliminar</button>
           </div>
         </div>
