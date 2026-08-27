@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -23,7 +24,7 @@
       font-weight: 900;
     }
 
-    /* Fondo liso en color beige suave (sin tramados ni líneas) */
+    /* Fondo liso en color beige suave */
     .light-grid {
       background-color: #f5f2eb;
     }
@@ -143,22 +144,22 @@
   </div>
 
   <!-- HEADER PÚBLICO -->
-  <header class="text-center py-8 px-4 relative z-10">
-    <p class="text-sm uppercase tracking-widest mb-3 text-gray-900 font-bold">Bienvenidos a</p>
+  <header class="text-center py-6 px-4 relative z-10">
+    <p class="text-xs uppercase tracking-widest mb-2 text-gray-700 font-bold">Bienvenidos a</p>
     
-    <!-- BANNER DINÁMICO -->
-    <div id="banner-display-container" class="max-w-md mx-auto mb-4 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-cover rounded-2xl shadow-md border border-gray-200">
+    <!-- BANNER DINÁMICO (Sin bordes blancos molestos, integrado al fondo) -->
+    <div id="banner-display-container" class="max-w-xs mx-auto mb-2 hidden px-4">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto max-h-44 object-contain mx-auto drop-shadow-sm">
     </div>
   </header>
 
   <!-- NAVEGACIÓN -->
-  <nav id="cat-nav" class="sticky top-0 z-40 bg-white/90 backdrop-blur px-4 py-3 flex gap-2 overflow-x-auto border-b border-gray-200 shadow-sm justify-start md:justify-center"></nav>
+  <nav id="cat-nav" class="sticky top-0 z-40 bg-[#f5f2eb]/90 backdrop-blur px-4 py-3 flex gap-2 overflow-x-auto border-b border-gray-300/60 shadow-sm justify-start md:justify-center"></nav>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="max-w-2xl mx-auto px-4 py-6 relative z-10">
     <div id="menu-container" class="space-y-6">
-      <p id="loading-msg" class="text-cyan-700 text-center py-12 animate-pulse text-sm">Cargando el menú...</p>
+      <p id="loading-msg" class="text-gray-600 text-center py-12 animate-pulse text-sm">Cargando el menú...</p>
     </div>
   </main>
 
@@ -185,6 +186,24 @@
     const bannerRef = ref(database, 'configuracion/banner');
 
     let menuData = [];
+
+    // Diccionario de emojis minimalistas para las categorías
+    const categoryEmojis = {
+      "Cervezas": "🍺",
+      "Tragos y Cócteles": "🍸",
+      "Autoría Hops": "⚡",
+      "Espumantes": "🍾",
+      "Destilados": "🥃",
+      "Bebidas Sin Alcohol": "🥤",
+      "Entradas": "🍟",
+      "Burgers": "🍔",
+      "Extras": "➕",
+      "Pizzas": "🍕",
+      "Milanesas": "🥩",
+      "Tacos": "🌮",
+      "Sándwiches": "🥪",
+      "Postres": "🍰"
+    };
 
     onValue(menuRef, (snapshot) => {
       const data = snapshot.val();
@@ -229,7 +248,7 @@
         document.getElementById('panel-box').classList.remove('hidden');
         renderAdminList();
       } else {
-        document.getElementById('login-error').classList.remove('hidden');
+        document.getElementById('login-error').classList.add('hidden');
       }
     };
 
@@ -349,9 +368,10 @@
       const categories = [...new Set(menuData.map(i => i.category))];
       
       const nav = document.getElementById('cat-nav');
-      nav.innerHTML = categories.map((cat, idx) => `
-        <button class="category-btn flex-shrink-0 px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs font-medium whitespace-nowrap" onclick="document.getElementById('sec-${idx}').scrollIntoView({behavior:'smooth',block:'start'})">${cat}</button>
-      `).join('');
+      nav.innerHTML = categories.map((cat, idx) => {
+        const emoji = categoryEmojis[cat] || '';
+        return `<button class="category-btn flex-shrink-0 px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs font-medium whitespace-nowrap" onclick="document.getElementById('sec-${idx}').scrollIntoView({behavior:'smooth',block:'start'})">${emoji ? emoji + ' ' : ''}${cat}</button>`;
+      }).join('');
 
       const container = document.getElementById('menu-container');
       if (categories.length === 0) {
@@ -361,6 +381,7 @@
 
       container.innerHTML = categories.map((cat, idx) => {
         const items = menuData.filter(i => i.category === cat);
+        const emoji = categoryEmojis[cat] || '';
         const itemsHTML = items.map(i => `
           <div class="menu-item py-3">
             <div class="flex justify-between items-baseline gap-3">
@@ -368,9 +389,9 @@
                 <span class="text-gray-900 text-sm font-medium block">${i.name}</span>
                 ${i.desc ? `<span class="block text-gray-500 text-xs">${i.desc}</span>` : ''}
               </div>
-              <span class="text-cyan-700 text-sm font-semibold whitespace-nowrap">${i.price}</span>
+              <span class="text-gray-900 text-sm font-semibold whitespace-nowrap">${i.price}</span>
             </div>
-            ${i.image ? `<div class="mt-2.5 flex justify-center bg-gray-100 p-2 rounded-xl border border-gray-200"><img src="${i.image}" loading="lazy" class="max-h-48 w-auto object-contain rounded-lg"></div>` : ''}
+            ${i.image ? `<div class="mt-2.5 flex justify-center p-1"><img src="${i.image}" loading="lazy" class="max-h-48 w-auto object-contain rounded-lg"></div>` : ''}
           </div>
         `).join('');
 
@@ -378,7 +399,7 @@
           <div id="sec-${idx}" class="section-block scroll-mt-16 mb-4">
             <div class="mb-3">
               <span class="cat-plate">
-                <span class="text-white uppercase text-lg tracking-wide retro-title">${cat}</span>
+                <span class="text-white uppercase text-lg tracking-wide retro-title">${emoji ? emoji + ' ' : ''}${cat}</span>
               </span>
             </div>
             <div class="bg-white border border-gray-200/80 p-4 rounded-xl shadow-sm">
