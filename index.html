@@ -5,28 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <!-- Importación de fuente moderna de Google Fonts -->
+  <!-- Importación de fuente moderna para los textos generales -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap?v=99" rel="stylesheet">
   <style>
-    /* Forzar Plus Jakarta Sans de forma estricta en absolutamente todo */
+    /* Forzar Plus Jakarta Sans en el cuerpo */
     html, body, button, input, select, textarea, div, span, p, a { 
       font-family: 'Plus Jakarta Sans', sans-serif !important; 
     }
 
-    /* Importación de tipografía Bright Retro solo para los títulos de categorías */
-    @font-face {
-      font-family: 'Bright Retro';
-      src: url('https://db.onlinewebfonts.com/t/20e2417770802c6114871d3c054238db.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-    
+    /* Estilo Pesado / Retro Contundente para los títulos de categorías (Tipo Perro Negro) */
     .retro-title { 
-      font-family: 'Bright Retro', 'Permanent Marker', cursive, sans-serif !important; 
-      letter-spacing: 1px;
+      font-family: 'Impact', 'Arial Black', sans-serif !important; 
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 900;
     }
 
     .light-grid {
@@ -36,9 +30,10 @@
     }
     .cat-plate {
       background: linear-gradient(135deg, #00b4d8, #7b2cbf);
-      padding: 6px 18px;
+      padding: 8px 20px;
       display: inline-block;
       clip-path: polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
     .menu-item:last-child { border-bottom: none; }
@@ -94,7 +89,7 @@
         </div>
 
         <h3 class="text-xs uppercase tracking-wider text-cyan-700 mb-2 font-bold">Agregar / Editar Ítems del Menú</h3>
-        <!-- Formulario producto (Crear / Editar) -->
+        <!-- Formulario producto -->
         <form id="item-form" onsubmit="saveItem(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
           <input type="hidden" id="edit-id">
           <div>
@@ -172,7 +167,6 @@
 
     const PASS = "hops2026"; 
 
-    // Configuración de Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBfskM_72bc0fE3mASnt8Tp41CXJm9xMxc",
       authDomain: "menu-hops.firebaseapp.com",
@@ -382,7 +376,7 @@
           <div id="sec-${idx}" class="section-block scroll-mt-16 mb-4">
             <div class="mb-3">
               <span class="cat-plate">
-                <span class="text-white uppercase text-lg tracking-wide font-bold retro-title">${cat}</span>
+                <span class="text-white uppercase text-lg tracking-wide retro-title">${cat}</span>
               </span>
             </div>
             <div class="bg-white border border-gray-200/80 p-4 rounded-xl shadow-sm">
