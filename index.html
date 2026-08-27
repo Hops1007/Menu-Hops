@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- Importación de fuente moderna de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Importación de tipografía Bright Retro solo para los títulos de categorías */
     @font-face {
@@ -15,9 +19,9 @@
       font-display: swap;
     }
 
-    /* Tipografía moderna, estilizada y limpia para todo el menú */
+    /* Forzar la nueva tipografía moderna en todo el menú */
     body, button, input, select, textarea { 
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; 
+      font-family: 'Plus Jakarta Sans', sans-serif !important; 
     }
     
     .retro-title { 
@@ -186,7 +190,6 @@
 
     let menuData = [];
 
-    // Escuchar cambios en la base de datos en tiempo real (Productos)
     onValue(menuRef, (snapshot) => {
       const data = snapshot.val();
       menuData = [];
@@ -199,7 +202,6 @@
       renderAdminList();
     });
 
-    // Escuchar cambios en el banner en tiempo real
     onValue(bannerRef, (snapshot) => {
       const bannerUrl = snapshot.val();
       const bannerContainer = document.getElementById('banner-display-container');
@@ -242,7 +244,6 @@
       resetForm();
     };
 
-    // Guardar Banner en Firebase
     window.saveBanner = async function(e) {
       e.preventDefault();
       const fileInput = document.getElementById('banner-image-input');
