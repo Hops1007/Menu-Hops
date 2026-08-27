@@ -18,7 +18,7 @@
     /* Estilo Pesado / Retro Contundente para los títulos de categorías */
     .retro-title { 
       font-family: 'Impact', 'Arial Black', sans-serif !important; 
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       font-weight: 900;
     }
@@ -28,13 +28,22 @@
       background-color: #f5f2eb;
     }
 
-    /* PLACA DE CATEGORÍA: Fondo negro minimalista y elegante */
-    .cat-plate {
-      background: #111111;
-      padding: 8px 20px;
+    /* ESTILO ETIQUETA / BOTÓN DE CATEGORÍA */
+    .cat-badge {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 6px 16px;
       display: inline-block;
-      border-radius: 6px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .cat-badge:hover, .cat-badge:active {
+      background: #00b4d8;
+      border-color: #00b4d8;
+    }
+    .cat-badge:hover .retro-title, .cat-badge:active .retro-title {
+      color: #ffffff !important;
     }
 
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
@@ -338,7 +347,7 @@
             <span class="text-gray-800">${i.name}</span> - <span class="text-cyan-800 font-bold">${i.price}</span>
           </div>
           <div class="flex gap-1.5 flex-shrink-0">
-            <button onclick="editItem('${i.id}')" class="text-cyan-700 hover:text-cyan-900 font-bold px-2 py-1 bg-cyan-50 rounded border border-cyan-200">Editar</button>
+            <button onclick="editItem('${i.id}')" class="text-cyan-700 hover:text-cyan-900 font-bold px-2 py-1 bg-cyan-50 rounded border border-cyan-200">Editar, Editar</button>
             <button onclick="deleteItem('${i.id}')" class="text-red-600 hover:text-red-800 font-bold px-2 py-1 bg-red-50 rounded border border-red-200">Eliminar</button>
           </div>
         </div>
@@ -375,11 +384,11 @@
         `).join('');
 
         return `
-          <div id="sec-${idx}" class="section-block scroll-mt-16 mb-4">
-            <div class="mb-3">
-              <span class="cat-plate">
-                <span class="text-white uppercase text-lg tracking-wide retro-title">${cat}</span>
-              </span>
+          <div id="sec-${idx}" class="section-block scroll-mt-16 mb-6">
+            <div class="mb-3 px-1">
+              <div class="cat-badge">
+                <h3 class="text-gray-900 text-base uppercase tracking-wide retro-title transition-colors">${cat}</h3>
+              </div>
             </div>
             <div class="bg-white border border-gray-200/80 p-4 rounded-xl shadow-sm">
               ${itemsHTML}
@@ -390,4 +399,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
