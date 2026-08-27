@@ -46,6 +46,11 @@
       color: #ffffff !important;
     }
 
+    /* TRUCO PARA ELIMINAR EL FONDO BLANCO DE LA IMAGEN */
+    .transparent-logo {
+      mix-blend-mode: multiply;
+    }
+
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
     .menu-item:last-child { border-bottom: none; }
     nav::-webkit-scrollbar { display: none; }
@@ -152,10 +157,10 @@
   </div>
 
   <!-- HEADER PÚBLICO -->
-  <header class="text-center py-6 px-4 relative z-10">
-    <!-- BANNER INTEGRADO (SIN CAJA, TRANSPARENTE SOBRE EL FONDO) -->
-    <div id="banner-display-container" class="max-w-xs mx-auto mb-2 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto object-contain mx-auto">
+  <header class="text-center py-4 px-4 relative z-10">
+    <!-- BANNER CON EFECTO TRANSPARENTE (MULTIFY) -->
+    <div id="banner-display-container" class="max-w-xs mx-auto mb-1 hidden px-4">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto object-contain mx-auto transparent-logo">
     </div>
   </header>
 
