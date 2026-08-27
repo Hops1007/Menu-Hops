@@ -6,10 +6,15 @@
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- Importación de fuente moderna de Google Fonts -->
- <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap?v=99" rel="stylesheet">
   <style>
+    /* Forzar Plus Jakarta Sans de forma estricta en absolutamente todo */
+    html, body, button, input, select, textarea, div, span, p, a { 
+      font-family: 'Plus Jakarta Sans', sans-serif !important; 
+    }
+
     /* Importación de tipografía Bright Retro solo para los títulos de categorías */
     @font-face {
       font-family: 'Bright Retro';
@@ -17,11 +22,6 @@
       font-weight: normal;
       font-style: normal;
       font-display: swap;
-    }
-
-    /* Forzar la nueva tipografía moderna en todo el menú */
-    body, button, input, select, textarea { 
-      font-family: 'Plus Jakarta Sans', sans-serif !important; 
     }
     
     .retro-title { 
@@ -48,7 +48,7 @@
     .section-block { position: relative; z-index: 1; }
   </style>
 </head>
-<body class="min-h-screen light-grid text-gray-800">
+<body class="min-h-screen light-grid text-gray-800" style="font-family: 'Plus Jakarta Sans', sans-serif !important;">
 
   <!-- BOTÓN INVISIBLE / SECRETO (Esquina inferior derecha) -->
   <div onclick="openAdmin()" class="fixed bottom-0 right-0 w-16 h-16 z-50 cursor-pointer" title="Panel Admin"></div>
