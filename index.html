@@ -46,12 +46,6 @@
       color: #ffffff !important;
     }
 
-    /* ESTILO PARA INTEGRAR EL BANNER AL FONDO BEIGE */
-    .banner-box {
-      background-color: #f5f2eb;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
     .menu-item:last-child { border-bottom: none; }
     nav::-webkit-scrollbar { display: none; }
@@ -158,14 +152,10 @@
   </div>
 
   <!-- HEADER PÚBLICO -->
-  <header class="text-center py-8 px-4 relative z-10">
-    <p class="text-sm uppercase tracking-widest mb-3 text-gray-900 font-bold">Bienvenidos a</p>
-    
-    <!-- BANNER DINÁMICO CON EL MISMO FONDO DE LA PÁGINA -->
-    <div id="banner-display-container" class="max-w-md mx-auto mb-4 hidden px-4">
-      <div class="banner-box p-3 rounded-2xl shadow-sm inline-block w-full">
-        <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-40 sm:h-52 object-contain rounded-xl">
-      </div>
+  <header class="text-center py-6 px-4 relative z-10">
+    <!-- BANNER INTEGRADO (SIN CAJA, TRANSPARENTE SOBRE EL FONDO) -->
+    <div id="banner-display-container" class="max-w-xs mx-auto mb-2 hidden px-4">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto object-contain mx-auto">
     </div>
   </header>
 
