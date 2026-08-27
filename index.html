@@ -46,9 +46,9 @@
       color: #ffffff !important;
     }
 
-    /* TRUCO PARA ELIMINAR EL FONDO BLANCO DE LA IMAGEN */
-    .transparent-logo {
-      mix-blend-mode: multiply;
+    /* TRUCO PARA ELIMINAR EL FONDO NEGRO Y DEJAR SOLO EL NEÓN */
+    .transparent-dark-logo {
+      mix-blend-mode: screen;
     }
 
     .menu-item { border-bottom: 1px solid rgba(0,0,0,0.06); }
@@ -158,9 +158,9 @@
 
   <!-- HEADER PÚBLICO -->
   <header class="text-center py-4 px-4 relative z-10">
-    <!-- BANNER CON EFECTO TRANSPARENTE (MULTIFY) -->
+    <!-- BANNER CON EFECTO TRANSPARENTE PARA FONDO OSCURO (SCREEN) -->
     <div id="banner-display-container" class="max-w-xs mx-auto mb-1 hidden px-4">
-      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto object-contain mx-auto transparent-logo">
+      <img id="public-banner-img" src="" alt="Banner Hops" class="w-full h-auto object-contain mx-auto transparent-dark-logo">
     </div>
   </header>
 
