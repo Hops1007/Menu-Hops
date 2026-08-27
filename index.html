@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hops Food & Drinks - Menú</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    /* Importación de tipografía Bright Retro para títulos de categorías */
+    @font-face {
+      font-family: 'Bright Retro';
+      src: url('https://db.onlinewebfonts.com/t/20e2417770802c6114871d3c054238db.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     body { font-family: 'DM Sans', sans-serif; }
-    .neon-title { font-family: 'Permanent Marker', cursive; text-shadow: 0 0 8px rgba(0, 150, 180, 0.2); }
+    
+    .retro-title { 
+      font-family: 'Bright Retro', 'Permanent Marker', cursive, sans-serif; 
+      letter-spacing: 1px;
+    }
+
     .light-grid {
       background-color: #f7f6f2;
       background-image: linear-gradient(rgba(0,180,216,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,0.05) 1px, transparent 1px);
@@ -16,7 +30,7 @@
     }
     .cat-plate {
       background: linear-gradient(135deg, #00b4d8, #7b2cbf);
-      padding: 4px 16px;
+      padding: 6px 18px;
       display: inline-block;
       clip-path: polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%);
     }
@@ -40,7 +54,7 @@
       <!-- PANTALLA LOGIN ADMIN -->
       <div id="login-box">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="neon-title text-2xl text-cyan-700">HOPS ADMIN</h2>
+          <h2 class="retro-title text-2xl text-cyan-700">HOPS ADMIN</h2>
           <button onclick="closeAdmin()" class="text-gray-500 hover:text-gray-800 text-lg font-bold">✕</button>
         </div>
         <p class="text-gray-600 text-xs mb-4">Ingresá la contraseña para administrar el menú.</p>
@@ -52,7 +66,7 @@
       <!-- PANEL DE EDICIÓN -->
       <div id="panel-box" class="hidden">
         <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-4">
-          <h2 class="neon-title text-xl text-cyan-700">Panel de Control</h2>
+          <h2 class="retro-title text-xl text-cyan-700">Panel de Control</h2>
           <div class="flex gap-2">
             <button onclick="logout()" class="text-xs text-red-600 border border-red-200 px-2 py-1 rounded bg-red-50">Salir</button>
             <button onclick="closeAdmin()" class="text-gray-500 hover:text-gray-800 text-lg font-bold">✕</button>
@@ -113,7 +127,7 @@
   <!-- HEADER PÚBLICO -->
   <header class="text-center py-8 px-4 relative z-10">
     <p class="text-sm uppercase tracking-widest mb-2 text-cyan-700 font-semibold">Bienvenidos a</p>
-    <h1 class="neon-title text-5xl mb-1 text-cyan-800">HOPS</h1>
+    <h1 class="retro-title text-5xl mb-1 text-cyan-800">HOPS</h1>
     <p class="text-lg text-gray-600">Food & Drinks</p>
   </header>
 
@@ -314,7 +328,7 @@
           <div id="sec-${idx}" class="section-block scroll-mt-16 mb-4">
             <div class="mb-3">
               <span class="cat-plate">
-                <span class="text-white uppercase text-sm tracking-wide font-bold" style="font-family:'Permanent Marker',cursive">${cat}</span>
+                <span class="text-white uppercase text-lg tracking-wide font-bold retro-title">${cat}</span>
               </span>
             </div>
             <div class="bg-white border border-gray-200/80 p-4 rounded-xl shadow-sm">
